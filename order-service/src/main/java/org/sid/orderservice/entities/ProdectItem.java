@@ -14,6 +14,8 @@ public class ProdectItem {
     private Long ProductId;
     private double price;
     private int quantity;
+    @Transient
+    private ProdectItem prodectItem;
     private double discount;
     @ManyToOne
     private Order order;
