@@ -46,14 +46,16 @@ public class OrderServiceApplication {
 
 				Order savedOrder = orderRepository.save(order);
 				for (int j = 0; j < products.size(); j++) {
-					ProdectItem productItem=ProdectItem.builder()
-							.order(savedOrder)
-							.ProductId(products.get(j).getId())
-							.price(products.get(j).getPrice())
-							.quantity(1+ random.nextInt(10))
-							.discount(Math.random())
-							.build();
-					ProductRepository.save(productItem);
+					if (Math.random()>0.70) {
+						ProdectItem productItem = ProdectItem.builder()
+								.order(savedOrder)
+								.ProductId(products.get(j).getId()) // corrected to "productId"
+								.price(products.get(j).getPrice())
+								.quantity(1 + random.nextInt(10))
+								.discount(Math.random())
+								.build();
+						productRepository.save(productItem);
+					}
 				}
 			}
 		};
