@@ -6,7 +6,7 @@ import org.sid.orderservice.enums.OrderStatus;
 import org.sid.orderservice.model.Customer;
 import org.sid.orderservice.model.Product;
 import org.sid.orderservice.repository.OrderRepository;
-import org.sid.orderservice.repository.ProductRepository;
+import org.sid.orderservice.repository.ProductItemRepository;
 import org.sid.orderservice.service.CustomerRestClientService;
 import org.sid.orderservice.service.InventoryRestClientService;
 import org.springframework.boot.CommandLineRunner;
@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Bean;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @SpringBootApplication
 @EnableFeignClients
@@ -29,36 +28,37 @@ public class OrderServiceApplication {
 	}
 
 	@Bean
-	CommandLineRunner start(OrderRepository orderRepository, CustomerRestClientService customerRestClientService,
-							ProductRepository productRepository, InventoryRestClientService inventoryRestClientService) {
+	CommandLineRunner start(OrderRepository orderRepository,
+							ProductItemRepository productItemRepository,
+							CustomerRestClientService customerRestClientService,
+							InventoryRestClientService inventoryRestClientService){
 		return args -> {
-			List<Customer> customers = customerRestClientService.allCustomers().stream().collect(Collectors.toList());
-			List<Product> products = inventoryRestClientService.allProducts().getContent().stream().collect(Collectors.toList());
-
-			Long CustomersId = 1L;
-			Random random = new Random();
-			Customer customer = customerRestClientService.CustomerById(CustomersId);
-
-			for (int i = 0; i < 20; i++) {
-				Order order = Order.builder()
+			List<Customer> customers=customerRestClientService.allCustomers().getContent().stream().toList(); //parceque allcutomers return pagemodel il faut ajouter getcontent
+			List<Product> products=inventoryRestClientService.allProducts().getContent().stream().toList();
+			System.out.println(customers);
+			System.out.println(products);
+			Long customerId=1L;
+			Random random=new Random();
+			Customer customer = customerRestClientService.customerById(customerId);
+			for(int i=0;i<20;i++){
+				Order order= Order.builder()
 						.customerId(customers.get(random.nextInt(customers.size())).getId())
-						.status(Math.random() > 0.5 ? OrderStatus.PENDING : OrderStatus.CREATED)
+						.status(Math.random()>0.5? OrderStatus.PENDING:OrderStatus.CREATED)
 						.createdAt(new Date())
 						.build();
-
 				Order savedOrder = orderRepository.save(order);
-
-				for (int j = 0; j < products.size(); j++) {
-					if (Math.random() > 0.70) {
-						ProdectItem productItem = ProdectItem.builder()
+				for(int j=0;j<products.size();j++){
+					if (Math.random()>0.70){
+						ProdectItem productItem=ProdectItem.builder()
 								.order(savedOrder)
-								.ProductId(products.get(j).getId()) // corrected to "productId"
+								.ProductId(products.get(j).getId())
 								.price(products.get(j).getPrice())
-								.quantity(1 + random.nextInt(10))
+								.quantity(1+ random.nextInt(10))
 								.discount(Math.random())
 								.build();
-						productRepository.save(productItem);
+						productItemRepository.save(productItem);
 					}
+
 				}
 			}
 		};

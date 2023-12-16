@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface InventoryRestClientService {
 
     @GetMapping("/products/{id}?projection=fullProduct")
-    public Product ProductById(@PathVariable Long id);
+    public Product productById(@PathVariable Long id);
 
     @GetMapping("/products?projection=fullProduct")
     public PagedModel<Product> allProducts();
+
 }

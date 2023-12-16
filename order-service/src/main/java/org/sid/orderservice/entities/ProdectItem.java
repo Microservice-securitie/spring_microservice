@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.sid.orderservice.model.Product;
 
 @Entity @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class ProdectItem {
@@ -12,11 +13,11 @@ public class ProdectItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long ProductId;
+    @Transient
+    private Product product;
+    private double discount;
     private double price;
     private int quantity;
-    @Transient
-    private ProdectItem prodectItem;
-    private double discount;
     @ManyToOne
     private Order order;
 }
