@@ -5,6 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.net.ContentHandler;
 import java.util.List;
 
 @FeignClient(name = "customer-service")   // j'appl CustomerRestClientService envoie une request vers cus..
@@ -14,5 +15,6 @@ public interface CustomerRestClientService {
     public Customer CustomerById(@PathVariable Long id);
 
     @GetMapping("/customers?projection=fullCustomer")
-    public List<Customer> AllCustomers(@PathVariable Long id);
+    public List<Customer> allCustomers();
+
 }
