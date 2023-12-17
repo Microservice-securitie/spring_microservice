@@ -3,6 +3,7 @@ package org.sid.orderservice.entities;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.sid.orderservice.enums.OrderStatus;
 import org.sid.orderservice.model.Customer;
@@ -10,7 +11,7 @@ import org.sid.orderservice.model.Customer;
 import java.util.Date;
 import java.util.List;
 
-@Entity @AllArgsConstructor @NoArgsConstructor @Builder
+@Entity @AllArgsConstructor @NoArgsConstructor @Builder @Data
 @Table(name = "orders")
 public class Order {
     @Id
@@ -23,4 +24,6 @@ public class Order {
     private Customer customer;
     @OneToMany(mappedBy = "order")
     private List<ProdectItem> produItems;
+
+
 }
