@@ -1,7 +1,6 @@
 package org.sid.orderservice.web;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+
 import org.sid.orderservice.entities.Order;
 import org.sid.orderservice.model.Customer;
 import org.sid.orderservice.model.Product;
