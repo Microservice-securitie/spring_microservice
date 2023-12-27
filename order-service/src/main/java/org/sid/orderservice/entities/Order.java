@@ -23,7 +23,7 @@ public class Order {
     @Transient
     private Customer customer;
     @OneToMany(mappedBy = "order")
-    private List<ProdectItem> produItems;
+    private List<ProductItem> produItems;
 
 
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import org.sid.orderservice.model.Product;
 
 @Entity @Data @NoArgsConstructor @AllArgsConstructor @Builder
-public class ProdectItem {
+public class ProductItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

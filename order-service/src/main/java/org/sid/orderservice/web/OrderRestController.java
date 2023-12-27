@@ -8,7 +8,6 @@ import org.sid.orderservice.repository.OrderRepository;
 import org.sid.orderservice.repository.ProductItemRepository;
 import org.sid.orderservice.service.CustomerRestClientService;
 import org.sid.orderservice.service.InventoryRestClientService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +20,6 @@ public class OrderRestController {
     private CustomerRestClientService customerRestClientService;
     private InventoryRestClientService inventoryRestClientService;
 
-    @Autowired
     public OrderRestController(OrderRepository orderRepository, ProductItemRepository productItemRepository, CustomerRestClientService customerRestClientService, InventoryRestClientService inventoryRestClientService) {
         this.orderRepository = orderRepository;
         this.productItemRepository = productItemRepository;
@@ -29,17 +27,15 @@ public class OrderRestController {
         this.inventoryRestClientService = inventoryRestClientService;
     }
 
-    @GetMapping("/fullOrder/{id}")
-    public Order getOrder(@PathVariable Long id) {
-        Order order = orderRepository.findById(id).get(); // Use orderRepository instance
-        Customer customer = customerRestClientService.customerById(order.getCustomerId());
+    @GetMapping("/API/{id}")
+    public Order getOrder(@PathVariable Long id){
+        Order order=orderRepository.findById(id).get();
+        Customer customer=customerRestClientService.customerById(order.getCustomerId());
         order.setCustomer(customer);
-
-        order.getProduItems().forEach(pi -> {
-            Product product = inventoryRestClientService.productById(pi.getProductId());
-            pi.setProduct(product);
+        order.getProduItems().forEach(pi->{
+            Product product=inventoryRestClientService.productById(pi.getProductId());
+            pi.setProduct(product);  //ajout
         });
-
         return order;
     }
 }

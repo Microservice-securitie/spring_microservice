@@ -1,7 +1,7 @@
 package org.sid.orderservice;
 
 import org.sid.orderservice.entities.Order;
-import org.sid.orderservice.entities.ProdectItem;
+import org.sid.orderservice.entities.ProductItem;
 import org.sid.orderservice.enums.OrderStatus;
 import org.sid.orderservice.model.Customer;
 import org.sid.orderservice.model.Product;
@@ -49,7 +49,7 @@ public class OrderServiceApplication {
 				Order savedOrder = orderRepository.save(order);
 				for(int j=0;j<products.size();j++){
 					if (Math.random()>0.70){
-						ProdectItem productItem=ProdectItem.builder()
+						ProductItem productItem=ProductItem.builder()
 								.order(savedOrder)
 								.ProductId(products.get(j).getId())
 								.price(products.get(j).getPrice())
